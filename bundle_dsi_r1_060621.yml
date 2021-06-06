@@ -1,0 +1,761 @@
+series: focal
+applications:
+  aodh:
+    charm: cs:aodh-42
+    num_units: 1
+    to:
+    - lxd:3
+    options:
+      openstack-origin: cloud:focal-victoria
+    bindings:
+      "": dsi
+      admin: dsi
+      amqp: dsi
+      certificates: dsi
+      cluster: dsi
+      ha: dsi
+      identity-service: dsi
+      internal: dsi
+      mongodb: dsi
+      public: dsi
+      shared-db: dsi
+  aodh-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+  ceilometer:
+    charm: cs:ceilometer-275
+    num_units: 1
+    to:
+    - lxd:3
+    options:
+      openstack-origin: cloud:focal-victoria
+    bindings:
+      "": dsi
+      admin: dsi
+      amqp: dsi
+      amqp-listener: dsi
+      ceilometer-service: dsi
+      certificates: dsi
+      cluster: dsi
+      event-service: dsi
+      ha: dsi
+      identity-credentials: dsi
+      identity-notifications: dsi
+      identity-service: dsi
+      internal: dsi
+      metric-service: dsi
+      nrpe-external-master: dsi
+      public: dsi
+      shared-db: dsi
+  ceilometer-agent:
+    charm: cs:ceilometer-agent-264
+    bindings:
+      "": alpha
+      amqp: alpha
+      ceilometer-service: alpha
+      container: alpha
+      nova-ceilometer: alpha
+      nrpe-external-master: alpha
+  ceph-mon:
+    charm: cs:ceph-mon-49
+    num_units: 3
+    to:
+    - lxd:4
+    - lxd:5
+    - lxd:6
+    options:
+      expected-osd-count: 3
+      monitor-count: 3
+      source: cloud:focal-victoria
+    bindings:
+      "": dsi
+      admin: dsi
+      bootstrap-source: dsi
+      client: dsi
+      cluster: dsi
+      mds: dsi
+      mon: dsi
+      nrpe-external-master: dsi
+      osd: dsi
+      prometheus: dsi
+      public: dsi
+      radosgw: dsi
+      rbd-mirror: dsi
+  ceph-osd:
+    charm: cs:ceph-osd-304
+    num_units: 3
+    to:
+    - "4"
+    - "5"
+    - "6"
+    options:
+      osd-devices: /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf /dev/sdg /dev/sdh
+        /dev/sdi /dev/sdj /dev/sdk /dev/sdl /dev/sdm /dev/sdn /dev/sdo /dev/sdp /dev/sdq
+        /dev/sdr /dev/sds /dev/sdt /dev/sdu /dev/sdv /dev/sdw /dev/sdx /dev/sdy /dev/sdz
+      osd-encrypt: true
+      osd-encrypt-keymanager: vault
+      source: cloud:focal-victoria
+    bindings:
+      "": dsi
+      cluster: dsi
+      mon: dsi
+      nrpe-external-master: dsi
+      public: dsi
+      secrets-storage: dsi
+  ceph-radosgw:
+    charm: cs:ceph-radosgw-290
+    num_units: 1
+    to:
+    - lxd:0
+    options:
+      source: cloud:focal-victoria
+    bindings:
+      "": dsi
+      admin: dsi
+      certificates: dsi
+      cluster: dsi
+      gateway: dsi
+      ha: dsi
+      identity-service: dsi
+      internal: dsi
+      master: dsi
+      mon: dsi
+      nrpe-external-master: dsi
+      public: dsi
+      slave: dsi
+  cinder-ceph:
+    charm: cs:cinder-ceph-257
+    bindings:
+      "": alpha
+      ceph: alpha
+      ceph-access: alpha
+      juju-info: alpha
+      storage-backend: alpha
+  cinder-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+  cinder-volume-0a:
+    charm: cs:cinder-304
+    num_units: 1
+    to:
+    - lxd:1
+    options:
+      block-device: None
+      glance-api-version: 2
+      openstack-origin: cloud:focal-victoria
+      worker-multiplier: 0.25
+    bindings:
+      "": dsi
+      admin: dsi
+      amqp: dsi
+      backup-backend: dsi
+      ceph: dsi
+      certificates: dsi
+      cinder-volume-service: dsi
+      cluster: dsi
+      ha: dsi
+      identity-service: dsi
+      image-service: dsi
+      internal: dsi
+      nrpe-external-master: dsi
+      public: dsi
+      shared-db: dsi
+      storage-backend: dsi
+  glance:
+    charm: cs:glance-299
+    num_units: 1
+    to:
+    - lxd:2
+    options:
+      openstack-origin: cloud:focal-victoria
+      worker-multiplier: 0.25
+    bindings:
+      "": dsi
+      admin: dsi
+      amqp: dsi
+      ceph: dsi
+      certificates: dsi
+      cinder-volume-service: dsi
+      cluster: dsi
+      ha: dsi
+      identity-service: dsi
+      image-service: dsi
+      internal: dsi
+      nrpe-external-master: dsi
+      object-store: dsi
+      public: dsi
+      shared-db: dsi
+      storage-backend: dsi
+  glance-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+  gnocchi:
+    charm: cs:gnocchi-41
+    num_units: 1
+    to:
+    - lxd:1
+    options:
+      openstack-origin: cloud:focal-victoria
+    bindings:
+      "": dsi
+      admin: dsi
+      amqp: dsi
+      certificates: dsi
+      cluster: dsi
+      coordinator-memcached: dsi
+      ha: dsi
+      identity-service: dsi
+      internal: dsi
+      metric-service: dsi
+      public: dsi
+      shared-db: dsi
+      storage-ceph: dsi
+  gnocchi-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+  horizon:
+    charm: cs:openstack-dashboard-306
+    num_units: 1
+    to:
+    - lxd:1
+    options:
+      enforce-ssl: true
+      openstack-origin: cloud:focal-victoria
+      ubuntu-theme: "no"
+      webroot: /
+    bindings:
+      "": dsi
+      certificates: dsi
+      cluster: dsi
+      dashboard-plugin: dsi
+      ha: dsi
+      identity-service: dsi
+      nrpe-external-master: dsi
+      public: dsi
+      shared-db: dsi
+      website: dsi
+      websso-fid-service-provider: dsi
+      websso-trusted-dashboard: dsi
+  horizon-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+  keystone:
+    charm: cs:keystone-317
+    num_units: 1
+    to:
+    - lxd:3
+    options:
+      debug: true
+      dns-ha: false
+      openstack-origin: cloud:focal-victoria
+      os-admin-hostname: keystone-admin.os.r1.dsi.ic.ac.uk
+      os-internal-hostname: keystone-internal.os.r1.dsi.ic.ac.uk
+      os-public-hostname: keystone.os.r1.dsi.ic.ac.uk
+      preferred-api-version: 3
+      verbose: false
+      worker-multiplier: 0.25
+    bindings:
+      "": dsi
+      admin: dsi
+      certificates: dsi
+      cluster: dsi
+      domain-backend: dsi
+      ha: dsi
+      identity-admin: dsi
+      identity-credentials: dsi
+      identity-notifications: dsi
+      identity-service: dsi
+      internal: dsi
+      keystone-fid-service-provider: dsi
+      keystone-middleware: dsi
+      nrpe-external-master: dsi
+      public: dsi
+      shared-db: dsi
+      websso-trusted-dashboard: dsi
+  keystone-ldap-ict:
+    charm: cs:keystone-ldap-30
+    options:
+      domain-name: ic.ac.uk
+      ldap-password: ***
+      ldap-server: ldap://***/
+      ldap-suffix: dc=ic,dc=ac,dc=uk
+      ldap-user: cn=***,ou=***,dc=ic,dc=ac,dc=uk
+    bindings:
+      "": alpha
+      certificates: alpha
+      container: alpha
+      domain-backend: alpha
+  keystone-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+  memcached:
+    charm: cs:memcached-30
+    num_units: 1
+    to:
+    - lxd:2
+    bindings:
+      "": dsi
+      cache: dsi
+      cluster: dsi
+      local-monitors: dsi
+      monitors: dsi
+      munin: dsi
+      nrpe-external-master: dsi
+  mysql-innodb-cluster:
+    charm: cs:mysql-innodb-cluster-1
+    num_units: 4
+    to:
+    - lxd:0
+    - lxd:1
+    - lxd:2
+    - lxd:3
+    bindings:
+      "": dsi
+      certificates: dsi
+      cluster: dsi
+      coordinator: dsi
+      db-router: dsi
+      shared-db: dsi
+  neutron-api:
+    charm: cs:neutron-api-288
+    num_units: 1
+    to:
+    - lxd:1
+    options:
+      allow-automatic-l3agent-failover: true
+      debug: true
+      dns-domain: os.r1.dsi.ic.ac.uk
+      enable-ml2-port-security: true
+      flat-network-providers: dsi ict
+      manage-neutron-plugin-legacy-mode: false
+      neutron-security-groups: true
+      openstack-origin: cloud:focal-victoria
+      verbose: true
+      vlan-ranges: dsi-fabric
+      worker-multiplier: 0.25
+    bindings:
+      "": dsi
+      admin: dsi
+      amqp: dsi
+      certificates: dsi
+      cluster: dsi
+      etcd-proxy: dsi
+      external-dns: dsi
+      ha: dsi
+      identity-service: dsi
+      infoblox-neutron: dsi
+      internal: dsi
+      midonet: dsi
+      neutron-api: dsi
+      neutron-load-balancer: dsi
+      neutron-plugin-api: dsi
+      neutron-plugin-api-subordinate: dsi
+      nrpe-external-master: dsi
+      public: dsi
+      shared-db: dsi
+      vsd-rest-api: dsi
+  neutron-api-plugin-ovn:
+    charm: cs:neutron-api-plugin-ovn-1
+    bindings:
+      "": dsi
+      certificates: dsi
+      container: dsi
+      neutron-plugin: dsi
+      ovsdb-cms: dsi
+  neutron-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+  nova-cloud-controller:
+    charm: cs:nova-cloud-controller-346
+    num_units: 1
+    to:
+    - lxd:0
+    options:
+      network-manager: Neutron
+      openstack-origin: cloud:focal-victoria
+      worker-multiplier: 0.25
+    bindings:
+      "": dsi
+      admin: dsi
+      amqp: dsi
+      amqp-cell: dsi
+      certificates: dsi
+      cinder-volume-service: dsi
+      cloud-compute: dsi
+      cloud-controller: dsi
+      cluster: dsi
+      ha: dsi
+      identity-service: dsi
+      image-service: dsi
+      internal: dsi
+      memcache: dsi
+      neutron-api: dsi
+      nova-cell-api: dsi
+      nova-vmware: dsi
+      nrpe-external-master: dsi
+      placement: dsi
+      public: dsi
+      quantum-network-service: dsi
+      shared-db: dsi
+      shared-db-cell: dsi
+  nova-compute:
+    charm: cs:nova-compute-320
+    num_units: 4
+    to:
+    - "17"
+    - "14"
+    - "15"
+    - "16"
+    options:
+      config-flags: default_ephemeral_format=ext4
+      enable-live-migration: true
+      enable-resize: true
+      encrypt: true
+      ephemeral-device: /dev/bcache2
+      migration-auth-type: ssh
+      openstack-origin: cloud:focal-victoria
+    bindings:
+      "": dsi
+      amqp: dsi
+      ceph: dsi
+      ceph-access: dsi
+      cloud-compute: dsi
+      cloud-credentials: dsi
+      compute-peer: dsi
+      ephemeral-backend: dsi
+      image-service: dsi
+      internal: dsi
+      lxd: dsi
+      migration: dsi
+      neutron-plugin: dsi
+      nova-ceilometer: dsi
+      nrpe-external-master: dsi
+      secrets-storage: dsi
+  nova-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+  ntp:
+    charm: cs:ntp-41
+    bindings:
+      "": alpha
+      juju-info: alpha
+      master: alpha
+      nrpe-external-master: alpha
+      ntp-peers: alpha
+      ntpmaster: alpha
+  ovn-central:
+    charm: cs:ovn-central-1
+    num_units: 3
+    to:
+    - lxd:0
+    - lxd:1
+    - lxd:2
+    bindings:
+      "": dsi
+      certificates: dsi
+      ovsdb: dsi
+      ovsdb-cms: dsi
+      ovsdb-peer: dsi
+      ovsdb-server: dsi
+  ovn-chassis:
+    charm: cs:ovn-chassis-4
+    options:
+      bridge-interface-mappings: br-provider:bond0
+      ovn-bridge-mappings: dsi-fabric:br-provider
+    bindings:
+      "": dsi
+      amqp: dsi
+      certificates: dsi
+      data: dsi
+      juju-info: dsi
+      nova-compute: dsi
+      ovsdb: dsi
+      ovsdb-subordinate: dsi
+  placement:
+    charm: cs:placement-13
+    num_units: 1
+    to:
+    - lxd:2
+    options:
+      openstack-origin: cloud:focal-victoria
+      worker-multiplier: 0.25
+    bindings:
+      "": dsi
+      admin: dsi
+      amqp: dsi
+      certificates: dsi
+      cluster: dsi
+      ha: dsi
+      identity-service: dsi
+      internal: dsi
+      placement: dsi
+      public: dsi
+      shared-db: dsi
+  placement-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+  rabbitmq-server:
+    charm: cs:rabbitmq-server-104
+    num_units: 4
+    to:
+    - lxd:0
+    - lxd:1
+    - lxd:2
+    - lxd:3
+    options:
+      management_plugin: true
+      min-cluster-size: 2
+    bindings:
+      "": dsi
+      amqp: dsi
+      ceph: dsi
+      certificates: dsi
+      cluster: dsi
+      ha: dsi
+      nrpe-external-master: dsi
+  vault:
+    charm: cs:vault-40
+    num_units: 2
+    to:
+    - lxd:6
+    - lxd:3
+    options:
+      nagios_context: dsi-r1-os
+    bindings:
+      "": dsi
+      access: dsi
+      certificates: dsi
+      cluster: dsi
+      db: dsi
+      etcd: dsi
+      external: dsi
+      ha: dsi
+      nrpe-external-master: dsi
+      secrets: dsi
+      shared-db: dsi
+  vault-mysql-router:
+    charm: cs:mysql-router-3
+    bindings:
+      "": alpha
+      certificates: alpha
+      db-router: alpha
+      juju-info: alpha
+      shared-db: alpha
+machines:
+  "0": {}
+  "1": {}
+  "2": {}
+  "3": {}
+  "4": {}
+  "5": {}
+  "6": {}
+  "14": {}
+  "15": {}
+  "16": {}
+  "17": {}
+relations:
+- - nova-cloud-controller:identity-service
+  - keystone:identity-service
+- - glance:identity-service
+  - keystone:identity-service
+- - neutron-api:identity-service
+  - keystone:identity-service
+- - neutron-api:amqp
+  - rabbitmq-server:amqp
+- - nova-cloud-controller:image-service
+  - glance:image-service
+- - nova-compute:image-service
+  - glance:image-service
+- - nova-cloud-controller:cloud-compute
+  - nova-compute:cloud-compute
+- - nova-cloud-controller:amqp
+  - rabbitmq-server:amqp
+- - horizon:identity-service
+  - keystone:identity-service
+- - nova-cloud-controller:neutron-api
+  - neutron-api:neutron-api
+- - cinder-volume-0a:image-service
+  - glance:image-service
+- - cinder-volume-0a:amqp
+  - rabbitmq-server:amqp
+- - cinder-volume-0a:identity-service
+  - keystone:identity-service
+- - cinder-volume-0a:cinder-volume-service
+  - nova-cloud-controller:cinder-volume-service
+- - cinder-ceph:storage-backend
+  - cinder-volume-0a:storage-backend
+- - ceph-mon:client
+  - nova-compute:ceph
+- - nova-compute:ceph-access
+  - cinder-ceph:ceph-access
+- - ceph-mon:client
+  - cinder-ceph:ceph
+- - ceph-mon:client
+  - glance:ceph
+- - ceph-osd:mon
+  - ceph-mon:osd
+- - ntp:juju-info
+  - nova-compute:juju-info
+- - ceph-radosgw:mon
+  - ceph-mon:radosgw
+- - ceph-radosgw:identity-service
+  - keystone:identity-service
+- - placement:identity-service
+  - keystone:identity-service
+- - placement:placement
+  - nova-cloud-controller:placement
+- - keystone:shared-db
+  - keystone-mysql-router:shared-db
+- - cinder-volume-0a:shared-db
+  - cinder-mysql-router:shared-db
+- - glance:shared-db
+  - glance-mysql-router:shared-db
+- - nova-cloud-controller:shared-db
+  - nova-mysql-router:shared-db
+- - neutron-api:shared-db
+  - neutron-mysql-router:shared-db
+- - horizon:shared-db
+  - horizon-mysql-router:shared-db
+- - placement:shared-db
+  - placement-mysql-router:shared-db
+- - vault:shared-db
+  - vault-mysql-router:shared-db
+- - keystone-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - cinder-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - nova-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - glance-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - neutron-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - horizon-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - placement-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - vault-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - neutron-api:certificates
+  - vault:certificates
+- - vault:certificates
+  - cinder-volume-0a:certificates
+- - vault:certificates
+  - glance:certificates
+- - vault:certificates
+  - keystone:certificates
+- - vault:certificates
+  - nova-cloud-controller:certificates
+- - vault:certificates
+  - horizon:certificates
+- - vault:certificates
+  - placement:certificates
+- - ceilometer:amqp
+  - rabbitmq-server:amqp
+- - ceilometer-agent:ceilometer-service
+  - ceilometer:ceilometer-service
+- - ceilometer:identity-notifications
+  - keystone:identity-notifications
+- - ceilometer-agent:nova-ceilometer
+  - nova-compute:nova-ceilometer
+- - ceilometer-agent:amqp
+  - rabbitmq-server:amqp
+- - aodh-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - aodh:shared-db
+  - aodh-mysql-router:shared-db
+- - aodh:identity-service
+  - keystone:identity-service
+- - gnocchi:storage-ceph
+  - ceph-mon:client
+- - gnocchi-mysql-router:db-router
+  - mysql-innodb-cluster:db-router
+- - gnocchi:shared-db
+  - gnocchi-mysql-router:shared-db
+- - gnocchi:coordinator-memcached
+  - memcached:cache
+- - gnocchi:metric-service
+  - ceilometer:metric-service
+- - gnocchi:identity-service
+  - keystone:identity-service
+- - rabbitmq-server:amqp
+  - glance:amqp
+- - keystone:identity-credentials
+  - ceilometer:identity-credentials
+- - aodh:certificates
+  - vault:certificates
+- - vault:certificates
+  - ceilometer:certificates
+- - keystone-ldap-ict:domain-backend
+  - keystone:domain-backend
+- - gnocchi:certificates
+  - vault:certificates
+- - rabbitmq-server:amqp
+  - gnocchi:amqp
+- - nova-compute:amqp
+  - rabbitmq-server:amqp
+- - aodh:amqp
+  - rabbitmq-server:amqp
+- - neutron-api-plugin-ovn:certificates
+  - vault:certificates
+- - neutron-api-plugin-ovn:neutron-plugin
+  - neutron-api:neutron-plugin-api-subordinate
+- - ovn-central:certificates
+  - vault:certificates
+- - ovn-chassis:certificates
+  - vault:certificates
+- - ovn-chassis:ovsdb
+  - ovn-central:ovsdb
+- - neutron-api-plugin-ovn:ovsdb-cms
+  - ovn-central:ovsdb-cms
+- - nova-compute:neutron-plugin
+  - ovn-chassis:nova-compute
+- - nova-compute:secrets-storage
+  - vault:secrets
+- - ceph-osd:secrets-storage
+  - vault:secrets
